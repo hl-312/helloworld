@@ -1,38 +1,20 @@
 #include <STC89C5xRC.H>
 
-void delay_ms( char num );			//delay for num ms.
-
 void main()
 {
     unsigned char i = 0;
+    unsigned char j = 0;
     while(1) {
-        if ( i % 8 == 0 ) {
-            P2 = 0xff;
-            P2 = P2^0x01;    //与 1 异或就是给该位取反
-        }
-        if ( i % 8 == 1 ) P2 = P2^0x02;
-        if ( i % 8 == 2 ) P2 = P2^0x04;
-        if ( i % 8 == 3 ) P2 = P2^0x08;
-        if ( i % 8 == 4 ) P2 = P2^0x10;
-        if ( i % 8 == 5 ) P2 = P2^0x20;
-        if ( i % 8 == 6 ) P2 = P2^0x40;
-        if ( i % 8 == 7 ) P2 = P2^0x80;
-        if ( i == 240) i = 0;
-        delay_ms(1);
+        if ( i == 0 ) P2 = 0x03;    //P2 ^= 0x01;   //与 1 异或就是给该位取反,与 0 异或不变，full 亮度只能在开头这里设置
+//      if ( i == 1 ) P2 ^= 0x02;                   //P21 1% 亮度
+        if ( i == 90 ) P2 ^= 0x04;                  //P22 90%亮度
+        if ( i == 10 ) P2 ^= 0x08;
+        if ( i == 10 ) P2 ^= 0x10;
+        if ( i == 10 ) P2 ^= 0x20;
+        if ( i == 80 ) P2 ^= 0x40;
+        if ( i == 50 ) P2 ^= 0x80;
+		for ( j = 0; j < 10; j++ ){};
         i++;
+        if ( i >= 100) i -= 100;                    //相当于取模运算或者说取余了。一般的取模运算可能会用触发，这里只用减法，也许能加快速度
 	};
-}
-
-
-
-void delay_ms( char num )
-{
-	if( num > 0 && num < 120 ){
-		for ( ; num > 0; num-- ){
-			unsigned int i;
-			for ( i = 0; i < 33; i++ ){};
-		}
-		return ;
-	}
-	return ;
 }
